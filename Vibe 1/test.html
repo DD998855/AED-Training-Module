@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Test</title>
+</head>
+<body>
+  <h1>JavaScript Loading Test</h1>
+  <div id="test-output" style="font-family: monospace; white-space: pre; padding: 20px; background: #f0f0f0;"></div>
+  
+  <script>
+    const output = document.getElementById('test-output');
+    output.textContent = '🧪 Testing JavaScript...\n\n';
+    
+    // Test 1: Basic JS works
+    output.textContent += '✅ Test 1: Basic JavaScript works\n';
+    
+    // Test 2: Can load external script
+    const script = document.createElement('script');
+    script.src = 'js/app.js';
+    script.onerror = () => {
+      output.textContent += '❌ Test 2: FAILED - js/app.js not found or has error\n';
+      output.textContent += '   Check: Does js/app.js exist?\n';
+      output.textContent += '   Check: Is the path correct?\n';
+    };
+    script.onload = () => {
+      output.textContent += '✅ Test 2: js/app.js loaded successfully\n\n';
+      
+      // Test 3: Check if variables exist
+      setTimeout(() => {
+        output.textContent += '🔍 Checking global variables:\n';
+        output.textContent += `   typeof STEPS: ${typeof STEPS}\n`;
+        output.textContent += `   typeof state: ${typeof state}\n`;
+        output.textContent += `   typeof render: ${typeof render}\n\n`;
+        
+        // Test 4: Check DOM elements
+        output.textContent += '🔍 Checking DOM elements in index.html:\n';
+        const view = document.getElementById('view');
+        const backBtn = document.getElementById('backBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const toneSelect = document.getElementById('toneSelect');
+        
+        output.textContent += `   view: ${view ? '✅ Found' : '❌ NOT FOUND'}\n`;
+        output.textContent += `   backBtn: ${backBtn ? '✅ Found' : '❌ NOT FOUND'}\n`;
+        output.textContent += `   nextBtn: ${nextBtn ? '✅ Found' : '❌ NOT FOUND'}\n`;
+        output.textContent += `   resetBtn: ${resetBtn ? '✅ Found' : '❌ NOT FOUND'}\n`;
+        output.textContent += `   toneSelect: ${toneSelect ? '✅ Found' : '❌ NOT FOUND'}\n\n`;
+        
+        output.textContent += '📋 INSTRUCTIONS:\n';
+        output.textContent += '   1. If all tests pass, the issue might be CSS (pointer-events)\n';
+        output.textContent += '   2. If js/app.js failed to load, check file path\n';
+        output.textContent += '   3. If DOM elements not found, open index.html (not this test)\n';
+        output.textContent += '\n   Now open index.html and press F12 to see console logs!\n';
+      }, 100);
+    };
+    
+    document.head.appendChild(script);
+  </script>
+</body>
+</html>

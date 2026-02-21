@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>简单点击测试</title>
+  <style>
+    body { 
+      font-family: sans-serif; 
+      padding: 40px;
+      background: #f5f5f5;
+    }
+    button {
+      padding: 20px 40px;
+      font-size: 18px;
+      margin: 10px;
+      cursor: pointer;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    #output {
+      margin-top: 20px;
+      padding: 20px;
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      min-height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 点击测试</h1>
+  <p>如果下面的按钮能点击，说明浏览器和基本 JavaScript 都正常：</p>
+  
+  <button id="testBtn1">点我测试1</button>
+  <button id="testBtn2">点我测试2</button>
+  <button onclick="alert('内联事件可以用！')">点我测试3（内联）</button>
+  
+  <div id="output">
+    <strong>输出区域：</strong><br>
+    等待你点击按钮...
+  </div>
+
+  <script>
+    console.log("✅ JavaScript 已加载");
+    
+    const output = document.getElementById('output');
+    const btn1 = document.getElementById('testBtn1');
+    const btn2 = document.getElementById('testBtn2');
+    
+    console.log("btn1:", btn1);
+    console.log("btn2:", btn2);
+    
+    if (btn1) {
+      btn1.addEventListener('click', function() {
+        console.log("按钮1被点击了！");
+        output.innerHTML += '<br>✅ 按钮1点击成功！addEventListener 工作正常！';
+      });
+    } else {
+      console.error("❌ 找不到 btn1");
+    }
+    
+    if (btn2) {
+      btn2.onclick = function() {
+        console.log("按钮2被点击了！");
+        output.innerHTML += '<br>✅ 按钮2点击成功！onclick 工作正常！';
+      };
+    } else {
+      console.error("❌ 找不到 btn2");
+    }
+    
+    output.innerHTML += '<br><br><em>JavaScript 初始化完成。现在点击上面的按钮试试。</em>';
+  </script>
+</body>
+</html>

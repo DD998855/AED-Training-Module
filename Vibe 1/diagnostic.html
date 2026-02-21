@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔍 AED Training - Diagnostic Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 { color: #333; }
+    .test-section {
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .test-section h2 {
+      margin-top: 0;
+      color: #555;
+    }
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      margin: 4px 0;
+    }
+    .status.pass { background: #d4edda; color: #155724; }
+    .status.fail { background: #f8d7da; color: #721c24; }
+    .status.warn { background: #fff3cd; color: #856404; }
+    pre {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px 10px 0;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #consoleOutput {
+      max-height: 300px;
+      overflow-y: auto;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .console-error { color: #f48771; }
+    .console-warn { color: #dcdcaa; }
+    .console-success { color: #4ec9b0; }
+  </style>
+</head>
+<body>
+  <h1>🔍 AED Training Module - Diagnostic Test</h1>
+  
+  <div class="test-section">
+    <h2>📋 Test 1: File Structure</h2>
+    <div id="fileTest">Running...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>📋 Test 2: JavaScript Loading</h2>
+    <div id="jsTest">Running...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>📋 Test 3: DOM Elements</h2>
+    <div id="domTest">Running...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>📋 Test 4: Event Listeners</h2>
+    <button onclick="testButtons()">Test All Buttons</button>
+    <div id="eventTest">Click "Test All Buttons" above</div>
+  </div>
+
+  <div class="test-section">
+    <h2>📋 Test 5: Console Output</h2>
+    <button onclick="clearConsoleOutput()">Clear Console</button>
+    <button onclick="window.location.href='index.html'">Open Main App</button>
+    <pre id="consoleOutput"></pre>
+  </div>
+
+  <script>
+    const consoleOutput = document.getElementById('consoleOutput');
+    const originalConsole = {
+      log: console.log,
+      error: console.error,
+      warn: console.warn
+    };
+
+    function addToConsole(type, ...args) {
+      const line = document.createElement('div');
+      line.className = `console-${type}`;
+      line.textContent = args.join(' ');
+      consoleOutput.appendChild(line);
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+
+    console.log = function(...args) {
+      originalConsole.log(...args);
+      addToConsole('success', '✅', ...args);
+    };
+
+    console.error = function(...args) {
+      originalConsole.error(...args);
+      addToConsole('error', '❌', ...args);
+    };
+
+    console.warn = function(...args) {
+      originalConsole.warn(...args);
+      addToConsole('warn', '⚠️', ...args);
+    };
+
+    function clearConsoleOutput() {
+      consoleOutput.innerHTML = '';
+    }
+
+    // Test 1: File Structure
+    fetch('index.html')
+      .then(r => r.ok ? r.text() : Promise.reject('Not found'))
+      .then(() => {
+        document.getElementById('fileTest').innerHTML = '<span class="status pass">✅ PASS</span> index.html exists';
+      })
+      .catch(() => {
+        document.getElementById('fileTest').innerHTML = '<span class="status fail">❌ FAIL</span> index.html not found';
+      });
+
+    // Test 2: JavaScript Loading
+    setTimeout(() => {
+      const script = document.createElement('script');
+      script.src = 'js/app.js';
+      script.onerror = () => {
+        document.getElementById('jsTest').innerHTML = '<span class="status fail">❌ FAIL</span> js/app.js failed to load';
+      };
+      script.onload = () => {
+        document.getElementById('jsTest').innerHTML = '<span class="status pass">✅ PASS</span> js/app.js loaded successfully';
+        
+        // Test 3: DOM Elements (after script loads)
+        setTimeout(() => {
+          const requiredIds = [
+            'view', 'backBtn', 'nextBtn', 'resetBtn', 'toneSelect',
+            'modePill', 'stepPill', 'progressBar', 'footerHint',
+            'chunkPrep', 'chunkAnalysis', 'chunkShock'
+          ];
+          
+          const results = requiredIds.map(id => {
+            const el = document.getElementById(id);
+            return { id, found: !!el };
+          });
+          
+          const allFound = results.every(r => r.found);
+          const missing = results.filter(r => !r.found).map(r => r.id);
+          
+          if (allFound) {
+            document.getElementById('domTest').innerHTML = '<span class="status pass">✅ PASS</span> All required DOM elements found';
+          } else {
+            document.getElementById('domTest').innerHTML = 
+              '<span class="status fail">❌ FAIL</span> Missing elements: ' + missing.join(', ');
+          }
+        }, 100);
+      };
+      
+      document.head.appendChild(script);
+    }, 100);
+
+    function testButtons() {
+      const output = document.getElementById('eventTest');
+      output.innerHTML = '<p>Testing button clicks...</p>';
+      
+      const buttons = [
+        { id: 'nextBtn', name: 'Start/Next Button' },
+        { id: 'backBtn', name: 'Back Button' },
+        { id: 'resetBtn', name: 'Reset Button' },
+        { id: 'toneSelect', name: 'Tone Selector' }
+      ];
+      
+      let results = '';
+      buttons.forEach(btn => {
+        const el = document.getElementById(btn.id);
+        if (el) {
+          results += `<span class="status pass">✅</span> ${btn.name} exists<br>`;
+          
+          // Try to trigger click (won't actually work outside main context)
+          if (el.tagName === 'BUTTON') {
+            results += `<span class="status warn">⚠️</span> ${btn.name} - Can't test in diagnostic mode. Open main app to test.<br>`;
+          }
+        } else {
+          results += `<span class="status fail">❌</span> ${btn.name} not found!<br>`;
+        }
+      });
+      
+      output.innerHTML = results + '<br><p><strong>✅ To fully test:</strong> Open <a href="index.html" style="color:#007bff">index.html</a> and check browser console (F12)</p>';
+    }
+
+    console.log('🔍 Diagnostic page loaded. Running tests...');
+  </script>
+</body>
+</html>

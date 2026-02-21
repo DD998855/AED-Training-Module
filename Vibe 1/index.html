@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AED Training Module</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <a class="skip-link" href="#app">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Blue gradient for heart -->
+            <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3bb2ff;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#3a7bfd;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <!-- Heart shape with gradient -->
+          <path d="M50 85 C25 65, 10 50, 10 35 C10 20, 20 10, 32 10 C40 10, 45 15, 50 22 C55 15, 60 10, 68 10 C80 10, 90 20, 90 35 C90 50, 75 65, 50 85 Z" 
+                fill="url(#heartGradient)"/>
+          <!-- Lightning bolt (white) -->
+          <path d="M55 25 L45 50 L52 50 L48 75 L62 45 L55 45 Z" 
+                fill="#ffffff"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">AED Training Module</div>
+        <div class="brand-subtitle">Learn the correct sequence - Practice - Final assessment</div>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <button id="resetBtn" class="btn btn-ghost" type="button">Reset</button>
+    </div>
+  </header>
+
+  <main id="app" class="app" role="main">
+    <!-- Left column: phase / progress -->
+    <aside class="sidebar" aria-label="Learning progress">
+      <div class="card">
+        <div class="card-title">Your Path</div>
+        <ol class="phase-list" id="phaseList">
+          <li class="phase active" data-phase="intro">
+            <span class="phase-dot"></span>
+            <span>Scenario</span>
+          </li>
+          <li class="phase" data-phase="learn">
+            <span class="phase-dot"></span>
+            <span>Guided Learning</span>
+          </li>
+          <li class="phase" data-phase="practice">
+            <span class="phase-dot"></span>
+            <span>Interactive Practice</span>
+          </li>
+          <li class="phase" data-phase="assessment">
+            <span class="phase-dot"></span>
+            <span>Final Assessment</span>
+          </li>
+          <li class="phase" data-phase="complete">
+            <span class="phase-dot"></span>
+            <span>Complete</span>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Step Checklist</div>
+        <div class="step-checklist" id="stepChecklist"></div>
+        <p class="muted tiny" style="margin-top: 12px;">
+          Checkmark = completed, filled circle = current, empty circle = upcoming
+        </p>
+      </div>
+    </aside>
+
+    <!-- Right column: dynamic content -->
+    <section class="content" aria-live="polite">
+      <!-- Main view container -->
+      <div id="view" class="view"></div>
+
+      <!-- Footer nav -->
+      <footer class="footer-nav">
+        <button id="backBtn" class="btn btn-ghost" type="button" disabled>Back</button>
+
+        <div class="footer-center">
+          <div class="muted tiny" id="footerHint">Follow the guided training, then practice, then assessment.</div>
+        </div>
+      </footer>
+    </section>
+  </main>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>
