@@ -2,6 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
 
 :root{
+  --bg-main: #FFFFFF;
+  --bg-panel: #F7FAFF;
+  --bg-hover: #EEF5FF;
+  --bg-active: #E3F0FF;
   --bg: #e8f4f8;
   --panel: #ffffff;
   --panel2: #f8fbff;
@@ -100,10 +104,10 @@ select:focus{
 }
 
 .card{
-  background: rgba(255,255,255,.92);
+  background-color: var(--bg-main);
   border:1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   padding:16px;
 }
 
@@ -162,18 +166,22 @@ select:focus{
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.5);
+  background-color: var(--bg-main);
   transition: all 0.2s ease;
 }
 
+.checklist-item:hover {
+  background-color: var(--bg-hover);
+}
+
 .checklist-item.current {
-  background: rgba(59, 130, 246, 0.12);
+  background-color: var(--bg-active);
   border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .checklist-item.completed {
-  background: rgba(45, 212, 191, 0.08);
+  background-color: var(--bg-main);
   border-color: rgba(45, 212, 191, 0.3);
 }
 
@@ -241,6 +249,10 @@ select:focus{
 
 .sidebar{ display:flex; flex-direction:column; gap:16px; }
 
+.sidebar .card {
+  background-color: var(--bg-panel);
+}
+
 .content{
   min-height: 74vh;
   display:flex;
@@ -288,8 +300,8 @@ select:focus{
   flex:1;
   border-radius: var(--radius);
   border:1px solid var(--border);
-  background: rgba(255,255,255,.9);
-  box-shadow: var(--shadow);
+  background-color: var(--bg-main);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   padding: 18px;
   overflow:hidden;
 }
@@ -363,7 +375,8 @@ select:focus{
 .panel{
   border:1px solid var(--border);
   border-radius: var(--radius);
-  background: rgba(255,255,255,.75);
+  background-color: var(--bg-main);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   padding: 14px;
   overflow:auto;
 }
@@ -394,7 +407,7 @@ select:focus{
   gap: 12px;
   padding: 16px 20px;
   border-top: 1px solid var(--border);
-  background: rgba(248, 250, 252, 0.8);
+  background-color: var(--bg-main);
   justify-content: flex-start;
 }
 
