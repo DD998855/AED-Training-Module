@@ -883,7 +883,7 @@ function renderLearnStep(){
       ${renderSafetyReminder(step)}
 
       <div class="callout" style="margin-top:10px">
-        <div class="callout-title">Quick Check (Encoding)</div>
+        <div class="callout-title">Quick Check</div>
         <p class="p" style="margin:0 0 6px">${escapeHtml(step.microCheck.prompt)}</p>
         <div class="quiz" id="learnQuiz"></div>
         <div class="toast" id="learnToast" style="display:none"></div>
@@ -1046,7 +1046,7 @@ function initLearnQuiz(step){
           if(safetyReminder) {
             safetyReminder.classList.add('highlighted');
           }
-          message += `<p class="muted tiny" style="margin-top:12px">?? Check the Safety Reminder section above for more details.</p>`;
+          message += `<p class="muted tiny" style="margin-top:12px">💡 Check the Safety Reminder section above for more details.</p>`;
         }
         
         showModal(
