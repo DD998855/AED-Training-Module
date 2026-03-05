@@ -232,6 +232,18 @@ const PRACTICE_IMAGES = [
   "assets/Frame-16.png"
 ];
 
+// Build a single answer key for all interactive quiz questions:
+// Learn (1..N) + Practice (N+1..2N), cycling A/B/C.
+const QUIZ_ANSWER_PLAN = [
+  ...STEPS.map((_, stepIndex) => ({ phase: "learn", stepIndex, correctIndex: stepIndex % 3 })),
+  ...STEPS.map((_, stepIndex) => ({ phase: "practice", stepIndex, correctIndex: (STEPS.length + stepIndex) % 3 }))
+];
+
+function getCorrectOptionIndex(phase, stepIndex){
+  const row = QUIZ_ANSWER_PLAN.find(item => item.phase === phase && item.stepIndex === stepIndex);
+  return row ? row.correctIndex : 0;
+}
+
 const state = {
   phase: "intro", // intro | learn | practice | assessment | summary | complete
   stepIndex: -1,  // for learn/practice
@@ -978,6 +990,8 @@ function initLearnQuiz(step){
   const toast = document.getElementById("learnToast");
   if(!quiz || !toast) return;
 
+  const correctIndex = getCorrectOptionIndex("learn", state.stepIndex);
+
   quiz.innerHTML = "";
   const optionsWrap = document.createElement("div");
   optionsWrap.className = "options";
@@ -996,7 +1010,7 @@ function initLearnQuiz(step){
       const all = optionsWrap.querySelectorAll(".option");
       all.forEach(b => b.disabled = true);
 
-      if(opt.correct){
+      if(idx === correctIndex){
         btn.classList.add("correct");
         
         // Track if correct on first try
@@ -1154,6 +1168,8 @@ function initPracticeQuiz(step){
   const toast = document.getElementById("practiceToast");
   if(!quiz || !toast) return;
 
+  const correctIndex = getCorrectOptionIndex("practice", state.stepIndex);
+
   quiz.innerHTML = "";
   practiceStepCompleted = false;
 
@@ -1163,7 +1179,7 @@ function initPracticeQuiz(step){
   // Track error count for this step (if not already tracked)
   if(!state.errorCount[step.id]) state.errorCount[step.id] = 0;
 
-  step.microCheck.options.forEach((opt) => {
+  step.microCheck.options.forEach((opt, idx) => {
     const btn = document.createElement("button");
     btn.className = "option";
     btn.type = "button";
@@ -1173,7 +1189,7 @@ function initPracticeQuiz(step){
       const all = optionsWrap.querySelectorAll(".option");
       all.forEach(b => b.disabled = true);
 
-      if(opt.correct){
+      if(idx === correctIndex){
         btn.classList.add("correct");
         
         // Track if correct on first try
@@ -1361,7 +1377,7 @@ function renderAssessment(){
   wrap.className = "panel";
 
   wrap.innerHTML = `
-    <h1 class="h1">Final Assessment (Recall)</h1>
+    <h1 class="h1">Final Assessment</h1>
     <p class="p">
       All visible cues are removed. Drag steps into the correct order from memory.
       No hints — this tests true recall.
